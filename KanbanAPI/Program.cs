@@ -16,7 +16,7 @@ builder.Services.AddMvc().AddJsonOptions(opts =>
 });
 
 builder.Services.AddSingleton<ISqlite, SqliteService>();
-builder.Services.AddScoped<ICardCrud, SqliteCardCrudService>();
+builder.Services.AddSingleton<ICardCrud, SqliteCardCrudService>();
 builder.Services.AddScoped<ICardRepository, CardRepositoryService>();
 
 var app = builder.Build();

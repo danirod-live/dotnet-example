@@ -33,6 +33,7 @@ namespace KanbanAPI.Services
             }
             return card;
         }
+
         public void Delete(Guid id)
         {
             var card = crud.Find(id);

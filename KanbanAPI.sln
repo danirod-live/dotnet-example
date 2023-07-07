@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanAPI", "KanbanAPI\KanbanAPI.csproj", "{3FD43ECE-52CD-4E69-A7DC-257CDE60F56A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KanbanAPI", "KanbanAPI\KanbanAPI.csproj", "{3FD43ECE-52CD-4E69-A7DC-257CDE60F56A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanLib", "KanbanLib\KanbanLib.csproj", "{C0C7E818-DCFA-42DE-94D9-FBFB0234033E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3FD43ECE-52CD-4E69-A7DC-257CDE60F56A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FD43ECE-52CD-4E69-A7DC-257CDE60F56A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FD43ECE-52CD-4E69-A7DC-257CDE60F56A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C7E818-DCFA-42DE-94D9-FBFB0234033E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C7E818-DCFA-42DE-94D9-FBFB0234033E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C7E818-DCFA-42DE-94D9-FBFB0234033E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C7E818-DCFA-42DE-94D9-FBFB0234033E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
