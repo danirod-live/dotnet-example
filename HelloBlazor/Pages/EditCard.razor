@@ -1,0 +1,33 @@
+﻿@page "/cards/{Uid:guid}/edit"
+@using KanbanAPI.Services
+@using LocalModel;
+@inject ICardRepository CardRepo
+@inject NavigationManager Navigation
+
+<PageTitle>Edit Card</PageTitle>
+
+<h2>Editar</h2>
+<CardForm CardEntry="@CardData" OnSave="@OnUpdate" />
+
+@code {
+    [Parameter]
+    public Guid? Uid { get; set; }
+
+    private Card? CardItem { get; set; }
+
+    private LocalCard CardData => new(CardItem ?? new());
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Uid != null)
+        {
+            CardItem = await Task.FromResult(CardRepo.Get((Guid)Uid));
+        }
+    }
+
+    private void OnUpdate(LocalCard result)
+    {
+        CardRepo.Update((Guid)Uid, result.ToUpdateCard());
+        Navigation.NavigateTo("/cards");
+    }
+}

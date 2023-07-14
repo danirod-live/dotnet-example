@@ -1,0 +1,57 @@
+﻿@using KanbanWasm
+
+<div class="container">
+    <EditForm EditContext="@editContext" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="w-100 form-label">
+                Title
+                <InputText class="form-control" @bind-Value="Card.Title" />
+            </label>
+        </div>
+
+        <div class="mb-3">
+            <label class="w-100 form-label">
+                Descripción
+                <InputTextArea class="form-control" @bind-Value="Card.Description" />
+            </label>
+        </div>
+
+        <div class="mb-3">
+            <label class="w-100 form-label">
+                Prioridad
+                <InputSelect class="form-select" @bind-Value="Card.Level">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Critical">Critical</option>
+                </InputSelect>
+            </label>
+        </div>
+
+        <div><button class="btn btn-primary" type="submit">Enviar</button></div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public RemoteCardDto Card { get; set; }
+
+    [Parameter]
+    public EventCallback<RemoteCardDto> OnSave { get; set; }
+
+    private EditContext? editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new(Card);
+    }
+
+    private async Task HandleSubmit()
+    {
+        await OnSave.InvokeAsync(Card);
+    }
+}

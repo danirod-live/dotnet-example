@@ -1,0 +1,20 @@
+﻿@page "/cards/new"
+@using KanbanAPI.Services
+@using LocalModel;
+@inject ICardRepository CardRepo
+@inject NavigationManager Navigation
+
+<PageTitle>New Card</PageTitle>
+
+<h2>Crear</h2>
+<CardForm CardEntry="@CardData" OnSave="@OnCreate" />
+
+@code {
+    private LocalCard CardData => new(new());
+
+    private void OnCreate(LocalCard result)
+    {
+        CardRepo.Insert(result.ToCreateCard());
+        Navigation.NavigateTo("/cards");
+    }
+}

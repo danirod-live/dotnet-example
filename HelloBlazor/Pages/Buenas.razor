@@ -1,0 +1,39 @@
+﻿@page "/buenas"
+
+<h3>Buenas</h3>
+
+@if(Nombre != null)
+{
+    <p>Hola, @Nombre</p>
+}
+else
+{
+    <p>Todavía no me has dicho como te llamas</p>
+}
+
+<p>
+    <input type="text" placeholder="Tu nombre" @bind="futuroNombre" @bind:event="oninput" @onkeydown="OnKeyDown" />
+    <button type="submit" @onclick="UpdateNombre">Cambiar</button>
+</p>
+
+<p><small>@futuroNombre</small></p>
+
+@code
+{
+    private string? Nombre;
+
+    private string futuroNombre = "";
+
+    public void UpdateNombre()
+    {
+        Nombre = futuroNombre;
+    }
+
+    public void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            UpdateNombre();
+        }
+    }
+}

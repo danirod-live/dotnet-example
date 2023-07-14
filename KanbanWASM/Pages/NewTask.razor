@@ -1,0 +1,16 @@
+﻿@page "/tasks/new"
+@using KanbanWasm
+@inject HttpClient HttpClient
+@inject NavigationManager Navigation
+
+<TaskEditor Card="@CardData" OnSave="@OnCreate" />
+
+@code {
+    private RemoteCardDto CardData => new();
+
+    private async Task OnCreate(RemoteCardDto result)
+    {
+        await HttpClient.PostAsJsonAsync<RemoteCardDto>("http://localhost:5043/Cards", result);
+        Navigation.NavigateTo("/tasks");
+    }
+}

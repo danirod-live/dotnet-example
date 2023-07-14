@@ -1,0 +1,33 @@
+﻿@page "/tasks/{uid:guid}/edit"
+@using KanbanWasm
+@inject HttpClient HttpClient
+@inject NavigationManager Navigation
+
+@if (CardData != null)
+{
+    <TaskEditor Card="@CardData" OnSave="@OnUpdate" />
+}
+
+
+@code {
+    [Parameter]
+    public Guid? Uid { get; set; }
+
+    private RemoteCardDto? CardData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Uid != null)
+        {
+            var url = $"http://localhost:5043/Cards/{Uid}";
+            CardData = await HttpClient.GetFromJsonAsync<RemoteCardDto>(url);
+        }
+    }
+
+    private async void OnUpdate(RemoteCardDto card)
+    {
+        var url = $"http://localhost:5043/Cards/{Uid}";
+        await HttpClient.PutAsJsonAsync(url, card);
+        Navigation.NavigateTo("/tasks");
+    }
+}

@@ -1,0 +1,38 @@
+﻿@using KanbanAPI.Models
+
+<!-- CardTable -->
+@if (CardList != null)
+{
+<table>
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Tarea</td>
+            <td>Prioridad</td>
+            <td>Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cardItem in CardList)
+        {
+            <tr>
+                <td>@cardItem.Id</td>
+                <td><a href="/cards/@cardItem.Id">@cardItem.Title</a></td>
+                <td>@cardItem.Level</td>
+                <td>
+                        <a href="/cards/@cardItem.Id/edit" class="btn btn-outline-secondary btn-sm">Editar</a>
+                        <button @onclick="@(e => OnDeleteRequest.InvokeAsync(cardItem))" class="btn btn-outline-danger btn-sm">Borrar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public List<Card>? CardList { get; set; }
+
+    [Parameter]
+    public EventCallback<Card> OnDeleteRequest { get; set; }
+}

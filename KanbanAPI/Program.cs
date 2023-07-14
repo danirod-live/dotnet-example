@@ -19,6 +19,10 @@ builder.Services.AddSingleton<ISqlite, SqliteService>();
 builder.Services.AddSingleton<ICardCrud, SqliteCardCrudService>();
 builder.Services.AddScoped<ICardRepository, CardRepositoryService>();
 
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,5 +35,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("AllowAll");
 
 app.Run();

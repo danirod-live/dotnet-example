@@ -1,0 +1,56 @@
+﻿@using HelloBlazor.LocalModel;
+
+<div class="container">
+<EditForm EditContext="@editContext" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="w-100 form-label">
+            Title
+            <InputText class="form-control" @bind-Value="CardEntry.Title" />
+        </label>
+    </div>
+
+    <div class="mb-3">
+        <label class="w-100 form-label">
+            Descripción
+             <InputTextArea class="form-control" @bind-Value="CardEntry.Description" />
+        </label>
+    </div>
+
+    <div class="mb-3">
+        <label class="w-100 form-label">
+            Prioridad
+                <InputSelect class="form-select" @bind-Value="CardEntry.Level">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Critical">Critical</option>
+                </InputSelect>
+        </label>
+    </div>
+
+    <div><button class="btn btn-primary" type="submit">Enviar</button></div>
+</EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public LocalCard CardEntry { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<LocalCard> OnSave { get; set; }
+
+    private EditContext? editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new(CardEntry);
+    }
+
+    private async Task HandleSubmit()
+    {
+        await OnSave.InvokeAsync(CardEntry);
+    }
+}

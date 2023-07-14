@@ -1,0 +1,73 @@
+﻿@page "/tasks"
+@inject HttpClient HttpClient
+@inject IJSRuntime JsRuntime
+@using KanbanWasm
+
+<NavLink href="/tasks/new" class="btn btn-success btn-sm">Nueva tarea</NavLink>
+
+@if (TheCards != null)
+{
+    <table>
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Tarea</td>
+                <td>Prioridad</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cardItem in TheCards)
+            {
+                <tr>
+                    <td>@cardItem.Id</td>
+                    <td><NavLink href="@GetCardHyperlink(cardItem.Id)">@cardItem.Title</NavLink></td>
+                    <td>@cardItem.Level</td>
+                    <td>
+                        <NavLink href="@GetEditCardHyperlink(cardItem.Id)" class="btn btn-outline-secondary btn-sm">Editar</NavLink>
+                        <button @onclick="@(e => HandleDelete(cardItem.Id))" class="btn btn-outline-danger btn-sm">Borrar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private List<RemoteCardDto> TheCards = new();
+
+    public string GetCardHyperlink(string id) => $"/tasks/{id}";
+
+    public string GetEditCardHyperlink(string id) => $"/tasks/{id}/edit";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Reload();
+    }
+
+    private async Task Reload()
+    {
+        var cards = await HttpClient.GetFromJsonAsync<RemoteCardDto[]>("http://localhost:5043/Cards");
+        TheCards.Clear();
+        if (cards != null)
+        {
+            foreach (var card in cards)
+            {
+                TheCards.Add(card);
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async void HandleDelete(String id)
+    {
+        bool outcome = await JsRuntime.InvokeAsync<bool>("confirm", "¿Borramos de verdad?");
+        if (outcome)
+        {
+            var url = $"http://localhost:5043/Cards/{id}";
+            await HttpClient.DeleteAsync(url);
+            await Reload();
+        }
+    }
+}

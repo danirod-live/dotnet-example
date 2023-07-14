@@ -1,0 +1,29 @@
+﻿@page "/cards/{Uid:guid}"
+
+@using KanbanAPI.Models
+@using KanbanAPI.Services
+@inject ICardRepository CardRepo
+
+<PageTitle>Card</PageTitle>
+
+@if(CardItem != null)
+{
+<h3>@CardItem.Title</h3>
+<p>@CardItem.Description</p>
+<p>@CardItem.Level</p>
+}
+
+@code {
+    [Parameter]
+    public Guid? Uid { get; set; }
+
+    private Card? CardItem { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Uid != null)
+        {
+            CardItem = await Task.FromResult(CardRepo.Get((Guid)Uid));
+        }
+    }
+}

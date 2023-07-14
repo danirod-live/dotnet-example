@@ -1,0 +1,44 @@
+﻿@page "/cards"
+
+<PageTitle>Cards</PageTitle>
+
+@using KanbanAPI.Services
+@using KanbanAPI.Models
+@inject ICardRepository CardsRepository
+@inject IJSRuntime JsRuntime
+
+<h3>Cards</h3>
+
+<a href="/cards/new" class="btn btn-success btn-sm">Nueva tarjeta</a>
+
+@if (CardList != null)
+{
+    <p>Tenemos @Count tarjetas</p>
+    <CardTable CardList="CardList" OnDeleteRequest="@OnDeleteRequest"/>
+}
+else
+{
+    <p>Cargando...</p>
+}
+
+@code
+{
+    private List<Card>? CardList;
+
+    private int Count => CardList != null ? CardList.Count : 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CardList = await Task.FromResult<List<Card>>(new(CardsRepository.GetAll()));
+    }
+
+    private async Task OnDeleteRequest(Card c)
+    {
+        bool outcome = await JsRuntime.InvokeAsync<bool>("confirm", "¿Borramos de verdad?");
+        if (outcome)
+        {
+            CardsRepository.Delete(c.Id);
+            CardList = new(CardsRepository.GetAll());
+        }
+    }
+}

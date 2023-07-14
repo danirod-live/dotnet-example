@@ -1,0 +1,29 @@
+﻿@page "/tasks/{Uid:guid}"
+@using KanbanWasm
+@inject HttpClient TheClient
+
+<h3>ShowCard</h3>
+
+@if (CardItem != null)
+{
+    <h3>@CardItem.Title</h3>
+    <p>@CardItem.Description</p>
+    <p><strong>@CardItem.Level</strong></p>
+    <p><small>@CardItem.Id</small></p>
+}
+
+@code {
+    [Parameter]
+    public Guid? Uid { get; set; }
+
+    private RemoteCardDto? CardItem { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Uid != null)
+        {
+            var url = $"http://localhost:5043/Cards/{Uid}";
+            CardItem = await TheClient.GetFromJsonAsync<RemoteCardDto>(url);
+        }
+    }
+}
