@@ -1,4 +1,5 @@
-﻿using KanbanAPI.Models;
+﻿using Dapper;
+using KanbanAPI.Models;
 
 namespace KanbanAPI.Services;
 
@@ -31,80 +32,34 @@ public class SqliteCardCrudService : ICardCrud
 
     public Card[] All()
     {
-        var query = "SELECT guid, title, description, priority FROM cards";
-        var command = sqlite.OpenCommand();
-        command.CommandText = query;
-        using var reader = command.ExecuteReader();
-
-        var cards = new List<Card>();
-        while (reader.Read())
-        {
-            _ = Enum.TryParse(reader.GetString(3), out Priority level);
-            var card = new Card
-            {
-                Id = reader.GetGuid(0),
-                Title = reader.GetString(1),
-                Description = reader.GetString(2),
-                Level = level,
-            };
-            cards.Add(card);
-        }
-        return cards.ToArray();
+        var query = "SELECT guid AS id, title, description, priority FROM cards";
+        return sqlite.Connection.Query<Card>(query).ToArray();
     }
 
     public Card? Find(Guid id)
     {
-        var query = "SELECT guid, title, description, priority FROM cards WHERE guid = $id";
-        var command = sqlite.OpenCommand();
-        command.CommandText = query;
-        command.Parameters.AddWithValue("$id", id);
-        using var reader = command.ExecuteReader();
-
-        if (reader.Read())
+        var query = "SELECT guid AS id, title, description, priority FROM cards WHERE guid = @Id";
+        return sqlite.Connection.QueryFirstOrDefault<Card>(query, new
         {
-            _ = Enum.TryParse(reader.GetString(3), out Priority level);
-            var card = new Card
-            {
-                Id = reader.GetGuid(0),
-                Title = reader.GetString(1),
-                Description = reader.GetString(2),
-                Level = level
-            };
-            return card;
-        }
-        return null;
+            Id = id,
+        });
     }
 
     public void Insert(Card card)
     {
-        var stmt = "INSERT INTO cards (guid, title, description, priority) VALUES ($id, $title, $description, $priority)";
-        var command = sqlite.OpenCommand();
-        command.CommandText = stmt;
-        command.Parameters.AddWithValue("$id", card.Id);
-        command.Parameters.AddWithValue("$title", card.Title);
-        command.Parameters.AddWithValue("$description", card.Description);
-        command.Parameters.AddWithValue("$priority", card.Level);
-        command.ExecuteNonQuery();
+        var stmt = "INSERT INTO cards (guid, title, description, priority) VALUES (@Id, @Title, @Description, @Level)";
+        sqlite.Connection.Execute(stmt, card);
     }
 
     public void Update(Card card)
     {
-        var stmt = "UPDATE cards SET title = $title, description = $desc, priority = $prio WHERE guid = $id";
-        var command = sqlite.OpenCommand();
-        command.CommandText = stmt;
-        command.Parameters.AddWithValue("$id", card.Id);
-        command.Parameters.AddWithValue("$title", card.Title);
-        command.Parameters.AddWithValue("$desc", card.Description);
-        command.Parameters.AddWithValue("$prio", card.Level);
-        command.ExecuteNonQuery();
+        var stmt = "UPDATE cards SET title = @Title, description = @Description, priority = @Level WHERE guid = @Id";
+        sqlite.Connection.Execute(stmt, card);
     }
 
     public void Delete(Card card)
     {
-        var query = "DELETE FROM cards WHERE guid = $id";
-        var command = sqlite.OpenCommand();
-        command.CommandText = query;
-        command.Parameters.AddWithValue("$id", card.Id);
-        command.ExecuteNonQuery();
+        var query = "DELETE FROM cards WHERE guid = @Id";
+        sqlite.Connection.Execute(query, card);
     }
 }

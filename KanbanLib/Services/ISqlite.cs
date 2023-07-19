@@ -4,5 +4,7 @@ namespace KanbanAPI.Services;
 
 public interface ISqlite
 {
+    SqliteConnection Connection { get; }
+
     SqliteCommand OpenCommand();
 }

@@ -1,3 +1,4 @@
+using Dapper;
 using KanbanAPI.Services;
 using System.Text.Json.Serialization;
 
@@ -18,6 +19,8 @@ builder.Services.AddMvc().AddJsonOptions(opts =>
 builder.Services.AddSingleton<ISqlite, SqliteService>();
 builder.Services.AddSingleton<ICardCrud, SqliteCardCrudService>();
 builder.Services.AddScoped<ICardRepository, CardRepositoryService>();
+
+SqlMapper.AddTypeHandler(new KanbanLib.GuidConverter());
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
