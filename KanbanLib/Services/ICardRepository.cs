@@ -7,11 +7,11 @@ public interface ICardRepository
 {
     Card[] GetAll();
 
-    Card? Get(Guid id);
+    Card? Get(int id);
 
     Card Insert(CreateCardDto data);
 
-    Card? Update(Guid id, UpdateCardDto data);
+    Card? Update(int id, UpdateCardDto data);
 
-    void Delete(Guid id);
+    void Delete(int id);
 }

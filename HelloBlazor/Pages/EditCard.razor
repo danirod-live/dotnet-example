@@ -1,4 +1,4 @@
-﻿@page "/cards/{Uid:guid}/edit"
+﻿@page "/cards/{Id:int}/edit"
 @using KanbanAPI.Services
 @using LocalModel;
 @inject ICardRepository CardRepo
@@ -11,7 +11,7 @@
 
 @code {
     [Parameter]
-    public Guid? Uid { get; set; }
+    public int Id { get; set; }
 
     private Card? CardItem { get; set; }
 
@@ -19,15 +19,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (Uid != null)
-        {
-            CardItem = await Task.FromResult(CardRepo.Get((Guid)Uid));
-        }
+        CardItem = await Task.FromResult(CardRepo.Get(Id));
     }
 
     private void OnUpdate(LocalCard result)
     {
-        CardRepo.Update((Guid)Uid, result.ToUpdateCard());
+        CardRepo.Update(Id, result.ToUpdateCard());
         Navigation.NavigateTo("/cards");
     }
 }

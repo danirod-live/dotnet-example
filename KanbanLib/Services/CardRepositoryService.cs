@@ -12,7 +12,7 @@ namespace KanbanAPI.Services
             this.crud = crud;
         }
 
-        public Card? Get(Guid id) => crud.Find(id);
+        public Card? Get(int id) => crud.Find(id);
 
         public Card[] GetAll() => crud.All();
 
@@ -23,7 +23,7 @@ namespace KanbanAPI.Services
             return card;
         }
 
-        public Card? Update(Guid id, UpdateCardDto data)
+        public Card? Update(int id, UpdateCardDto data)
         {
             var card = crud.Find(id);
             if (card != null)
@@ -34,7 +34,7 @@ namespace KanbanAPI.Services
             return card;
         }
 
-        public void Delete(Guid id)
+        public void Delete(int id)
         {
             var card = crud.Find(id);
             if (card != null)

@@ -20,7 +20,7 @@ public class CardsController : ControllerBase
     public IEnumerable<Card> Get() => repository.GetAll();
 
     [HttpGet("{id}")]
-    public ActionResult Get(Guid id)
+    public ActionResult Get(int id)
     {
         var card = repository.Get(id);
         if (card != null)
@@ -34,7 +34,7 @@ public class CardsController : ControllerBase
     public Card Post([FromBody] CreateCardDto dto) => repository.Insert(dto);
 
     [HttpPut("{id}")]
-    public ActionResult Put(Guid id, [FromBody] UpdateCardDto dto) {
+    public ActionResult Put(int id, [FromBody] UpdateCardDto dto) {
         var card = repository.Update(id, dto);
         if (card != null)
         {
@@ -45,7 +45,7 @@ public class CardsController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    public ActionResult Delete(Guid id)
+    public ActionResult Delete(int id)
     {
         repository.Delete(id);
         return NoContent();

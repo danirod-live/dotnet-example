@@ -8,7 +8,7 @@ public class SqliteService : ISqlite, IDisposable
 {
     private readonly SqliteConnection connection;
 
-    public SqliteConnection Connection => connection;
+    public IDbConnection Connection => connection;
 
     public SqliteService()
     {

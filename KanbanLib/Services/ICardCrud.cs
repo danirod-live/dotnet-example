@@ -6,7 +6,7 @@ public interface ICardCrud
 {
     Card[] All();
 
-    Card? Find(Guid id);
+    Card? Find(int id);
 
     void Insert(Card card);
 

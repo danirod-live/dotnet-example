@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using Dapper.Contrib;
+using Dapper.Contrib.Extensions;
 using KanbanAPI.Models;
 
 namespace KanbanAPI.Services;
@@ -16,15 +18,15 @@ public class SqliteCardCrudService : ICardCrud
     private void InitSchema()
     {
         var schema = @"
-            CREATE TABLE IF NOT EXISTS cards(
-                guid VARCHAR(64) NOT NULL,
-                title VARCHAR(256) NOT NULL,
-                description TEXT,
-                priority VARCHAR(64) NOT NULL
-            );
-            CREATE UNIQUE INDEX IF NOT EXISTS cards_guid ON cards(guid);
-            CREATE INDEX IF NOT EXISTS cards_priority ON cards(priority);
-            ";
+        CREATE TABLE IF NOT EXISTS Card(
+            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+            Title VARCHAR(256) NOT NULL,
+            Description TEXT,
+            Level VARCHAR(64) NOT NULL
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS CardId ON Card(Id);
+        CREATE INDEX IF NOT EXISTS CardLevel ON Card(Level);
+        ";
         var command = sqlite.OpenCommand();
         command.CommandText = schema;
         command.ExecuteNonQuery();
@@ -32,34 +34,26 @@ public class SqliteCardCrudService : ICardCrud
 
     public Card[] All()
     {
-        var query = "SELECT guid AS id, title, description, priority FROM cards";
-        return sqlite.Connection.Query<Card>(query).ToArray();
+        return sqlite.Connection.GetAll<Card>().ToArray();
     }
 
-    public Card? Find(Guid id)
+    public Card? Find(int id)
     {
-        var query = "SELECT guid AS id, title, description, priority FROM cards WHERE guid = @Id";
-        return sqlite.Connection.QueryFirstOrDefault<Card>(query, new
-        {
-            Id = id,
-        });
+        return sqlite.Connection.Get<Card>(id);
     }
 
     public void Insert(Card card)
     {
-        var stmt = "INSERT INTO cards (guid, title, description, priority) VALUES (@Id, @Title, @Description, @Level)";
-        sqlite.Connection.Execute(stmt, card);
+        sqlite.Connection.Insert<Card>(card);
     }
 
     public void Update(Card card)
     {
-        var stmt = "UPDATE cards SET title = @Title, description = @Description, priority = @Level WHERE guid = @Id";
-        sqlite.Connection.Execute(stmt, card);
+        sqlite.Connection.Update<Card>(card);
     }
 
     public void Delete(Card card)
     {
-        var query = "DELETE FROM cards WHERE guid = @Id";
-        sqlite.Connection.Execute(query, card);
+        sqlite.Connection.Delete<Card>(card);
     }
 }

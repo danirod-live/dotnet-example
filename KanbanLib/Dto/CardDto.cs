@@ -6,8 +6,7 @@ public record CreateCardDto(string Title, string Description = "", Priority Leve
 {
     public Card ToCard()
     {
-        var guid = Guid.NewGuid();
-        return new Card(guid, Title, Description, Level);
+        return new Card(0, Title, Description, Level);
     }
 }
 

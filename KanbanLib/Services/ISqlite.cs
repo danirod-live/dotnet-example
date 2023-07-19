@@ -1,10 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Data;
 
 namespace KanbanAPI.Services;
 
 public interface ISqlite
 {
-    SqliteConnection Connection { get; }
+    IDbConnection Connection { get; }
 
     SqliteCommand OpenCommand();
 }

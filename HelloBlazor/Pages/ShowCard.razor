@@ -1,4 +1,4 @@
-﻿@page "/cards/{Uid:guid}"
+﻿@page "/cards/{id:int}"
 
 @using KanbanAPI.Models
 @using KanbanAPI.Services
@@ -15,15 +15,12 @@
 
 @code {
     [Parameter]
-    public Guid? Uid { get; set; }
+    public int Id { get; set; }
 
     private Card? CardItem { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        if (Uid != null)
-        {
-            CardItem = await Task.FromResult(CardRepo.Get((Guid)Uid));
-        }
+        CardItem = await Task.FromResult(CardRepo.Get(Id));
     }
 }

@@ -1,8 +1,13 @@
-﻿namespace KanbanAPI.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace KanbanAPI.Models;
+
+[Table("Card")]
 public class Card
 {
-    public Guid Id { get; set; }
+    [Key]
+    public int Id { get; set; }
 
     public string? Title { get; set; }
 
@@ -12,7 +17,7 @@ public class Card
 
     public Card() { }
 
-    public Card(Guid id, string title, string? description, Priority level)
+    public Card(int id, string title, string? description, Priority level)
     {
         Id = id;
         Title = title;
