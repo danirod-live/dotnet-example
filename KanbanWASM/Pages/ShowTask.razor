@@ -1,4 +1,4 @@
-﻿@page "/tasks/{Uid:guid}"
+﻿@page "/tasks/{id:int}"
 @using KanbanWasm
 @inject HttpClient TheClient
 
@@ -14,16 +14,13 @@
 
 @code {
     [Parameter]
-    public Guid? Uid { get; set; }
+    public int Id { get; set; }
 
     private RemoteCardDto? CardItem { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        if (Uid != null)
-        {
-            var url = $"http://localhost:5043/Cards/{Uid}";
-            CardItem = await TheClient.GetFromJsonAsync<RemoteCardDto>(url);
-        }
+        var url = $"http://localhost:5043/Cards/{Id}";
+        CardItem = await TheClient.GetFromJsonAsync<RemoteCardDto>(url);
     }
 }

@@ -37,9 +37,9 @@
 {
     private List<RemoteCardDto> TheCards = new();
 
-    public string GetCardHyperlink(string id) => $"/tasks/{id}";
+    public string GetCardHyperlink(int id) => $"/tasks/{id}";
 
-    public string GetEditCardHyperlink(string id) => $"/tasks/{id}/edit";
+    public string GetEditCardHyperlink(int id) => $"/tasks/{id}/edit";
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,7 +60,7 @@
         StateHasChanged();
     }
 
-    private async void HandleDelete(String id)
+    private async void HandleDelete(int id)
     {
         bool outcome = await JsRuntime.InvokeAsync<bool>("confirm", "¿Borramos de verdad?");
         if (outcome)
