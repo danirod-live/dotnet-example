@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KanbanLib", "KanbanLib\Kanb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloBlazor", "HelloBlazor\HelloBlazor.csproj", "{2C09A97A-B1B4-40FC-AD82-E922E1011C97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanWASM", "KanbanWASM\KanbanWASM.csproj", "{18786CF6-ACB4-47C9-B916-E8B506BBF548}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KanbanWASM", "KanbanWASM\KanbanWASM.csproj", "{18786CF6-ACB4-47C9-B916-E8B506BBF548}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RunnerTest", "RunnerTest\RunnerTest.vbproj", "{F7FA3228-943D-428D-BDD7-22F56CBD10C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{18786CF6-ACB4-47C9-B916-E8B506BBF548}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18786CF6-ACB4-47C9-B916-E8B506BBF548}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18786CF6-ACB4-47C9-B916-E8B506BBF548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7FA3228-943D-428D-BDD7-22F56CBD10C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7FA3228-943D-428D-BDD7-22F56CBD10C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7FA3228-943D-428D-BDD7-22F56CBD10C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7FA3228-943D-428D-BDD7-22F56CBD10C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
